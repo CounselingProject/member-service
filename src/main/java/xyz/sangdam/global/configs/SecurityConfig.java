@@ -33,16 +33,17 @@ public class SecurityConfig {
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(h -> {
                     h.authenticationEntryPoint((req, res, e) -> res.sendError(HttpStatus.UNAUTHORIZED.value()));
-                   h.accessDeniedHandler((req, res, e) -> res.sendError(HttpStatus.UNAUTHORIZED.value()));
+                    h.accessDeniedHandler((req, res, e) -> res.sendError(HttpStatus.UNAUTHORIZED.value()));
                 })
                 .authorizeHttpRequests(c -> {
-                        c.requestMatchers(
-                            "/account",
-                            "/account/token",
-                                "/apidocs.html",
-                                "/swagger-ui/**",
-                                "/api-docs/**"
-                            ).permitAll() // 회원가입, 로그인(토큰)은 모든 접근 가능
+                    c.requestMatchers(
+                                    "/account",
+                                    "/account/token",
+                                    "/apidocs.html",
+                                    "/swagger-ui/**",
+                                    "/api-docs/**"
+                            ).permitAll()// 회원가입, 로그인(토큰)은 모든 접근 가능
+                            .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                             .anyRequest().authenticated(); // 그외에는 인증 필요
                 });
 
