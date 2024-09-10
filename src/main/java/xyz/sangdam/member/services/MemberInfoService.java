@@ -41,7 +41,7 @@ public class MemberInfoService implements UserDetailsService {
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
         UserType userType = member.getUserType();
         switch(userType) {
-            case COUNSELOR: // 교직원
+            case COUNSELOR: // 상담사
                 member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
 
                 break;
