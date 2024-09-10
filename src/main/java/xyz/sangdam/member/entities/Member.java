@@ -61,7 +61,7 @@ public class Member extends BaseEntity {
     private String deptNm; // 부서명 이자 학과명
     
     @Column(length=10)
-    private String deptNo; // 부서번호
+    private String deptNo; // 부서 번호 이자 학과 번호
 
 
     /*
