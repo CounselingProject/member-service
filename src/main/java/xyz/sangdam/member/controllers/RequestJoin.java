@@ -18,6 +18,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestJoin {
 
+    /* 회원공통 S */
     private String gid = UUID.randomUUID().toString();
 
     @NotBlank
@@ -30,21 +31,33 @@ public class RequestJoin {
     @NotBlank
     private String confirmPassword;
 
-    private String userSe = UserType.STUDENT.name(); // 사용자 구분 - STUDENT가 기본값
 
     @NotBlank
     private String userName;
 
+    @NotBlank
     private String mobile;
+
+    @NotBlank
+    private String userType; // 회원 유형 - STUDENT, PROFESSOR, COUNSELLOR, ADMIN
 
     private String zonecode; // 우편번호
     private String address; // 주소
     private String addresssub; // 상세 주소
-    private String birth; // 생년월일
-    private String gender = Gender.FEMALE.name(); // 성별
-    private String status = Status.ONCLASS.name(); // 기본값 수업 중
 
-    private String deptNo; // 부서번호
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private LocalDate birth; // 생년월일
+    private String gender = Gender.FEMALE.name(); // 성별
+    private String status;
+
+
+    @NotBlank
+    private String deptNm; // 부서명이자 학과명
+
+    @NotBlank
+    private String deptNo; // 부서번호 이자 학과번호
+
+    /* 회원공통 E */
 
     // 학생 정보
     private String grade; // 학년
@@ -53,12 +66,6 @@ public class RequestJoin {
     // 교직원 정보
     private String empNo; // 사번
     private String subject; // 담당 과목
-
-    // 교수 정보
-    @JsonFormat(pattern="yyyy-mm-dd")
-    private LocalDate stateDate; // 시작일자
-    private LocalDate endDate; // 종료일자
-    private String nowState = Status.ONCLASS.name(); // 기본값 - 수업 중
 
     @AssertTrue
     private boolean agree;
