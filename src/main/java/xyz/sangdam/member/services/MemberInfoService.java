@@ -40,16 +40,10 @@ public class MemberInfoService implements UserDetailsService {
 
         Member member = memberRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
         UserType userType = member.getUserType();
-        switch(userType) {
-            case COUNSELOR: // 상담사
-                member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
-
-                break;
-            case PROFESSOR: // 교수
-                member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
-                break;
-            default: // 학생
-                member = studentRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+        if (userType == UserType.COUNSELOR || userType == UserType.ADMIN || userType == UserType.PROFESSOR) {
+            member = employeeRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
+        } else if (userType == UserType.STUDENT) {
+            member = studentRepository.findById(member.getSeq()).orElseThrow(() -> new UsernameNotFoundException(username));
         }
 
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(userType.name()));

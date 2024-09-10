@@ -8,7 +8,6 @@ import xyz.sangdam.member.constants.Status;
 import xyz.sangdam.member.constants.UserType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -60,8 +59,7 @@ public class Member extends BaseEntity {
 
     @Column(length=50)
     private String deptNm; // 부서명 이자 학과명
-
-    @Id
+    
     @Column(length=10)
     private String deptNo; // 부서번호
 
