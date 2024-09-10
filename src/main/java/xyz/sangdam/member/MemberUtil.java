@@ -36,13 +36,13 @@ public class MemberUtil {
         return isLogin() && getMember() instanceof Employee;
     }
 
-    public Member getMember() {
+    public <T extends Member> T getMember() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-            return memberInfo.getMember();
+            return (T)memberInfo.getMember();
         }
 
         return null;
