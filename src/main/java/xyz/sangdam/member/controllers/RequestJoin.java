@@ -43,7 +43,7 @@ public class RequestJoin {
 
     private String zonecode; // 우편번호
     private String address; // 주소
-    private String addresssub; // 상세 주소
+    private String addressSub; // 상세 주소
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
@@ -60,8 +60,8 @@ public class RequestJoin {
     /* 회원공통 E */
 
     // 학생 정보
-    private String grade; // 학년
     private String stdntNo; // 학번
+    private String grade; // 학년
 
     // 교직원 정보
     private String empNo; // 사번
