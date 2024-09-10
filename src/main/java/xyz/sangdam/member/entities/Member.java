@@ -1,46 +1,34 @@
 package xyz.sangdam.member.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import xyz.sangdam.global.entities.BaseEntity;
+import xyz.sangdam.member.constants.UserType;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name="USER_INFO")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Member extends BaseEntity {
-    @Id
-    @GeneratedValue
-    private Long seq;
+    @Id @GeneratedValue
+    private Long seq; // 사용자 번호
 
-    @Column(length=45, nullable = false)
-    private String gid;
+    @Column(length=50, unique = true, nullable = false)
+    private String email; // 로그인 ID
 
-    @Column(length=65, unique = true, nullable = false)
-    private String email;
+    @Column(length=200, nullable = false)
+    private String password; // 비밀번호
 
-    @Column(length=65, nullable = false)
-    private String password;
+    private int loginErrCnt; // 로그인 오류 횟수
 
-    @Column(length=40, nullable = false)
-    private String userName;
+    @Column(length=1)
+    private String firYn; // 개정 잠금 여부
 
-    @Column(length=15, nullable = false)
-    private String mobile;
+    private LocalDateTime rcntDt; // 최근 접속 일시
 
-    private String department; // 학과
-    private String professor; // 지도 교수
-
-    private String zonecode; // 우펴번호
-    private String address; // 주소
-    private String addressSub; // 나머지 주소
-
-    private String subject; // 담당 과목
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "member")
-    private List<Authorities> authorities;
+    @Enumerated(EnumType.STRING)
+    @Column(length=10, nullable = false)
+    private UserType userSe; // 사용자 구분
 }

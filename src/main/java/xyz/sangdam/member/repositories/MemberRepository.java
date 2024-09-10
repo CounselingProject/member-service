@@ -1,15 +1,13 @@
 package xyz.sangdam.member.repositories;
 
-import xyz.sangdam.member.entities.Member;
-import xyz.choongang.member.entities.QMember;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import xyz.sangdam.member.entities.Member;
+import xyz.sangdam.member.entities.QMember;
 
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, QuerydslPredicateExecutor<Member> {
-    @EntityGraph(attributePaths = "authorities")
     Optional<Member> findByEmail(String email);
 
     default boolean exists(String email) {

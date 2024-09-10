@@ -1,32 +1,35 @@
 package xyz.sangdam.member;
 
+
 import lombok.RequiredArgsConstructor;
-import xyz.sangdam.member.constants.Authority;
-import xyz.sangdam.member.entities.Authorities;
-import xyz.sangdam.member.entities.Member;
-import xyz.sangdam.member.repositories.MemberRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
+import xyz.sangdam.member.entities.Employee;
+import xyz.sangdam.member.entities.Member;
+import xyz.sangdam.member.entities.Professor;
+import xyz.sangdam.member.entities.Student;
 
 @Component
 @RequiredArgsConstructor
 public class MemberUtil {
 
-    private final MemberRepository repository;
-
     public boolean isLogin() {
         return getMember() != null;
     }
 
-    public boolean isAdmin() {
-        if (isLogin()) {
-            List<Authorities> authorities = getMember().getAuthorities();
-            return authorities.stream().anyMatch(s -> s.getAuthority().equals(Authority.ADMIN));
-        }
-        return false;
+    public boolean isEmployee() {
+
+        return isLogin() && getMember() instanceof Employee;
+    }
+
+    public boolean isProfessor() {
+        return isLogin() && getMember() instanceof Professor;
+    }
+
+    public boolean isStudent() {
+
+        return isLogin() && getMember() instanceof Student;
     }
 
     public Member getMember() {
@@ -35,10 +38,7 @@ public class MemberUtil {
 
         if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo memberInfo) {
 
-            Member member = repository.findByEmail(memberInfo.getEmail()).orElse(null);
-            memberInfo.setMember(member);
-
-            return member;
+            return memberInfo.getMember();
         }
 
         return null;

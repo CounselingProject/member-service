@@ -1,6 +1,7 @@
 package xyz.sangdam.member.validators;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.StringUtils;
 import xyz.sangdam.global.validators.MobileValidator;
 import xyz.sangdam.global.validators.PasswordValidator;
 import xyz.sangdam.member.controllers.RequestJoin;
@@ -55,7 +56,7 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         }
 
         // 4. 휴대전화번호 형식 체크
-        if (!mobileCheck(mobile)) {
+        if (StringUtils.hasText(mobile) && !mobileCheck(mobile)) {
             errors.rejectValue("mobile", "Mobile");
         }
     }

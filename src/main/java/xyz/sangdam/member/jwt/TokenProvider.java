@@ -4,15 +4,15 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import xyz.sangdam.global.exceptions.UnAuthorizedException;
-import xyz.sangdam.member.MemberInfo;
-import xyz.sangdam.member.services.MemberInfoService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import xyz.sangdam.global.exceptions.UnAuthorizedException;
+import xyz.sangdam.member.MemberInfo;
+import xyz.sangdam.member.services.MemberInfoService;
 
 import java.security.Key;
 import java.util.Date;
