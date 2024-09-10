@@ -1,13 +1,11 @@
 package xyz.sangdam.member.services;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import xyz.sangdam.member.MemberUtil;
-import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestJoin;
@@ -17,7 +15,7 @@ import xyz.sangdam.member.repositories.EmployeeRepository;
 import xyz.sangdam.member.repositories.MemberRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
 
-import java.util.Objects;
+
 
 @Service
 @Transactional
