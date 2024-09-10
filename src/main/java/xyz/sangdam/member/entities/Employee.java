@@ -17,7 +17,7 @@ public class Employee extends Member {
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="deptNo")
-    private DeptInfo deptInfo;
+    private DeptInfo deptInfo; // 부서 혹은 학과
 
     @Column(length=10, nullable = false)
     private String empNo;

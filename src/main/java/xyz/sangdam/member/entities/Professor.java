@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 @Table(name="STDNT_EMP_CN")
 public class Professor extends Employee {
-    private LocalDate StartDate;
+    private LocalDate startDate;
     private LocalDate endDate;
     private Status nowState;
 

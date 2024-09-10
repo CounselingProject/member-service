@@ -32,6 +32,10 @@ public class MemberUtil {
         return isLogin() && getMember() instanceof Student;
     }
 
+    public boolean isAdmin() {
+        return isLogin() && getMember() instanceof Employee;
+    }
+
     public Member getMember() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

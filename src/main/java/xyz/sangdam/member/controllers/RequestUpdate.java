@@ -9,9 +9,12 @@ import xyz.sangdam.member.constants.Status;
 import xyz.sangdam.member.constants.UserType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class RequestUpdate {
+
+    private String email;
 
     @NotBlank @Size(min=8)
     private String password;
