@@ -93,4 +93,4 @@ public class MemberController {
 
         return new JSONData(token);
     }
-} // test
+} 
