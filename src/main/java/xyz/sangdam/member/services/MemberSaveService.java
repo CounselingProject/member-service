@@ -6,23 +6,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import xyz.sangdam.member.MemberUtil;
-import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestJoin;
 import xyz.sangdam.member.controllers.RequestUpdate;
 import xyz.sangdam.member.entities.*;
 import xyz.sangdam.member.repositories.EmployeeRepository;
+import xyz.sangdam.member.repositories.MemberRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
 
-import java.util.Objects;
+
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class MemberSaveService {
-    private final StudentRepository studentRepository;
+    private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
+    private final StudentRepository studentRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
@@ -32,67 +33,48 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestJoin form) {
-
-        //UserType authority = StringUtils.hasText(form.getAuthority()) ? UserType.valueOf(form.getAuthority()) : Authority.STUDENT;
-
-        //UserType userType = UserType.valueOf(Objects.requireNonNullElse(form.getUserSe(), UserType.STUDENT.name()));
+        UserType userType = StringUtils.hasText(form.getUserType()) ? UserType.valueOf(form.getUserType()) : UserType.STUDENT;
 
         Member member = null;
-        switch(userType) {
-
-            case UserType == userType.name().equals(""):
-                member = new Employee();
-            case PROFESSOR:
-                member = new Professor();
-            default:
-                member = new Student();
+        if (userType == UserType.PROFESSOR || userType == UserType.COUNSELOR || userType == UserType.ADMIN) {
+            member = new Employee();
+        } else { // 학생
+            member = new Student();
         }
 
-        // 공통 항목 처리 S
+        /* 공통 항목 처리 S */
         String hash = passwordEncoder.encode(form.getPassword()); // BCrypt 해시화
+        String mobile = form.getMobile();
+        if (StringUtils.hasText(mobile)) {
+            mobile = mobile.replaceAll("\\D", "");
+        }
         member.setEmail(form.getEmail());
+        member.setUserName(form.getUserName());
         member.setPassword(hash);
+        member.setMobile(mobile);
+        member.setBirth(form.getBirth());
         member.setUserType(userType);
-        // 공통 항목 처리 E
+        member.setZonecode(form.getZonecode());
+        member.setAddress(form.getAddress());
+        member.setAddresssub(form.getAddressSub());
+        member.setGid(form.getGid());
+        /* 공통 항목 처리 E */
 
-        // 사용자 타입 별 추가 처리 S
-        // 부서 정보
-        String deptNo = form.getDeptNo();
-        //DeptInfo deptInfo = StringUtils.hasText(deptNo) ? deptInfoRepository.findById(deptNo).orElse(null) : null;
-
-        if (member instanceof Employee employee) { // 교직원
-            //employee.setDeptInfo(deptInfo);
-            employee.setDeptNm(form.getDeptNo());
+        // 상담사 추가 정보
+        if (member instanceof Employee employee) {
             employee.setEmpNo(form.getEmpNo());
-            employee.setMobile(form.getMobile());
-            employee.setGid(form.getGid());
-            employee.setZonecode(form.getZonecode());
-            employee.setAddress(form.getAddress());
-            employee.setAddresssub(form.getAddresssub());
-            employee.setBirth(form.getBirth());
-            employee.setGender(Gender.valueOf(form.getGender()));
+            employee.setSubject(form.getSubject());
             employee.setStatus(Status.valueOf(form.getStatus()));
             employeeRepository.saveAndFlush(employee);
 
-        }  else if (member instanceof Student student){ // 학생
-            //student.setDeptInfo(deptInfo);
-            student.setDeptNm(form.getDeptNo());
+        } else if (member instanceof Student student){ // 학생 추가 정보
             student.setStdntNo(form.getStdntNo());
             student.setGrade(form.getGrade());
-            student.setMobile(form.getMobile());
-            student.setGid(form.getGid());
-            student.setZonecode(form.getZonecode());
-            student.setAddress(form.getAddress());
-            student.setAddresssub(form.getAddresssub());
-            student.setBirth(form.getBirth());
-            student.setGender(Gender.valueOf(form.getGender()));
+            student.setDeptNm(form.getDeptNm());
             student.setStatus(Status.valueOf(form.getStatus()));
+
             studentRepository.saveAndFlush(student);
         }
-
-
-
-        // 사용자 타입 별 추가 처리 E
     }
 
     /**
@@ -102,6 +84,4 @@ public class MemberSaveService {
     public void save(RequestUpdate form) {
 
     }
-
-
 }
