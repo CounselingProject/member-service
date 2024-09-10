@@ -12,9 +12,7 @@ import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestJoin;
 import xyz.sangdam.member.controllers.RequestUpdate;
 import xyz.sangdam.member.entities.*;
-import xyz.sangdam.member.repositories.DeptInfoRepository;
 import xyz.sangdam.member.repositories.EmployeeRepository;
-import xyz.sangdam.member.repositories.ProfessorRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
 
 import java.util.Objects;
@@ -25,8 +23,6 @@ import java.util.Objects;
 public class MemberSaveService {
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
-    private final ProfessorRepository professorRepository;
-    private final DeptInfoRepository deptInfoRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
@@ -37,12 +33,14 @@ public class MemberSaveService {
      */
     public void save(RequestJoin form) {
 
-        UserType userType = UserType.valueOf(Objects.requireNonNullElse(form.getUserSe(), UserType.STUDENT.name()));
+        //UserType authority = StringUtils.hasText(form.getAuthority()) ? UserType.valueOf(form.getAuthority()) : Authority.STUDENT;
+
+        //UserType userType = UserType.valueOf(Objects.requireNonNullElse(form.getUserSe(), UserType.STUDENT.name()));
 
         Member member = null;
         switch(userType) {
 
-            case EMPLOYEE:
+            case UserType == userType.name().equals(""):
                 member = new Employee();
             case PROFESSOR:
                 member = new Professor();
@@ -54,16 +52,17 @@ public class MemberSaveService {
         String hash = passwordEncoder.encode(form.getPassword()); // BCrypt 해시화
         member.setEmail(form.getEmail());
         member.setPassword(hash);
-        member.setUserSe(userType);
+        member.setUserType(userType);
         // 공통 항목 처리 E
 
         // 사용자 타입 별 추가 처리 S
         // 부서 정보
         String deptNo = form.getDeptNo();
-        DeptInfo deptInfo = StringUtils.hasText(deptNo) ? deptInfoRepository.findById(deptNo).orElse(null) : null;
+        //DeptInfo deptInfo = StringUtils.hasText(deptNo) ? deptInfoRepository.findById(deptNo).orElse(null) : null;
 
         if (member instanceof Employee employee) { // 교직원
-            employee.setDeptInfo(deptInfo);
+            //employee.setDeptInfo(deptInfo);
+            employee.setDeptNm(form.getDeptNo());
             employee.setEmpNo(form.getEmpNo());
             employee.setMobile(form.getMobile());
             employee.setGid(form.getGid());
@@ -75,24 +74,9 @@ public class MemberSaveService {
             employee.setStatus(Status.valueOf(form.getStatus()));
             employeeRepository.saveAndFlush(employee);
 
-        } else if (member instanceof Professor professor) {  // 교수
-            professor.setDeptInfo(deptInfo);
-            professor.setEmpNo(form.getEmpNo());
-            professor.setMobile(form.getMobile());
-            professor.setGid(form.getGid());
-            professor.setZonecode(form.getZonecode());
-            professor.setAddress(form.getAddress());
-            professor.setAddresssub(form.getAddresssub());
-            professor.setBirth(form.getBirth());
-            professor.setGender(Gender.valueOf(form.getGender()));
-            professor.setStatus(Status.valueOf(form.getStatus()));
-            professor.setStartDate(form.getStateDate());
-            professor.setEndDate(form.getEndDate());
-            professor.setNowState(Status.valueOf(form.getNowState()));
-            professorRepository.saveAndFlush(professor);
-
-        } else if (member instanceof Student student){ // 학생
-            student.setDeptInfo(deptInfo);
+        }  else if (member instanceof Student student){ // 학생
+            //student.setDeptInfo(deptInfo);
+            student.setDeptNm(form.getDeptNo());
             student.setStdntNo(form.getStdntNo());
             student.setGrade(form.getGrade());
             student.setMobile(form.getMobile());
