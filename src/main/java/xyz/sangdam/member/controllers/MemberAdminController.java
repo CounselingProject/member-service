@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.usertype.UserType;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import xyz.sangdam.global.ListData;
@@ -19,8 +18,6 @@ import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.services.MemberInfoService;
 import xyz.sangdam.member.services.MemberSaveService;
 import xyz.sangdam.member.validators.UpdateValidator;
-
-import java.util.List;
 
 @Tag(name="MemberAdmin", description = "회원 관리 API")
 @RestController
@@ -78,6 +75,7 @@ public class MemberAdminController {
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
+
 
 
 
