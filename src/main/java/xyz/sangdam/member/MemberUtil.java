@@ -7,7 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
-import xyz.sangdam.member.entities.Professor;
 import xyz.sangdam.member.entities.Student;
 
 @Component
@@ -23,9 +22,6 @@ public class MemberUtil {
         return isLogin() && getMember() instanceof Employee;
     }
 
-    public boolean isProfessor() {
-        return isLogin() && getMember() instanceof Professor;
-    }
 
     public boolean isStudent() {
 
