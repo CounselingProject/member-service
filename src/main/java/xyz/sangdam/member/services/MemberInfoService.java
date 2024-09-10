@@ -83,7 +83,6 @@ public class MemberInfoService implements UserDetailsService {
             } else if (sopt.equals("name")) { // 회원명, 지도교수명
 
             }
-
         }
 
         /* 검색 처리 E */
