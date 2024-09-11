@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
@@ -30,6 +27,7 @@ import xyz.sangdam.member.validators.JoinValidator;
 
 @Tag(name = "Member", description = "회원 API")
 @RestController
+@RequestMapping("/account")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -43,12 +41,12 @@ public class MemberController {
     @Operation(summary = "인증(로그인)한 회원 정보 조회")
     @ApiResponse(responseCode = "200", description = "학생, 교수/상담자, 관리자에 따라 개인정보 조회 범위가 다르다<br>조회 가능 범위<br>학생 : 학과, 지도교수, 주소, 휴대폰 번호, 이메일<br>교수/상담사 : 담당 과목, 휴대폰 번호, 이메일")
     // 로그인한 회원 정보 조회
-    @GetMapping("/account")
+    @GetMapping
     @PreAuthorize("isAuthenticated()")
     public JSONData info(@AuthenticationPrincipal MemberInfo memberInfo) {
         Member member = memberInfo.getMember();
 
-        return null;
+        return new JSONData(member);
     }
 
     @Operation(summary = "회원가입")
@@ -61,7 +59,7 @@ public class MemberController {
             @Parameter(name="mobile", description = "휴대전화번호, 형식 검증 있음"),
             @Parameter(name="agree", required = true, description = "회원가입약관 동의")
     })
-    @PostMapping("/account")
+    @PostMapping
     public ResponseEntity join(@RequestBody @Valid RequestJoin form, Errors errors) {
 
         joinValidator.validate(form, errors);
@@ -82,7 +80,7 @@ public class MemberController {
             @Parameter(name="email", required = true, description = "이메일"),
             @Parameter(name="password", required = true, description = "비밀번호")
     })
-    @PostMapping("/account/token")
+    @PostMapping("/token")
     public JSONData token(@RequestBody @Valid RequestLogin form, Errors errors) {
 
         if (errors.hasErrors()) {

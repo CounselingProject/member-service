@@ -14,6 +14,7 @@ import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
+import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.services.MemberDeleteService;
 import xyz.sangdam.member.services.MemberInfoService;
@@ -30,6 +31,7 @@ public class MemberAdminController {
     private final MemberSaveService memberSaveService;
     private final UpdateValidator updateValidator;
     private final MemberDeleteService memberDeleteService;
+    private final MemberUtil memberUtil;
     private final Utils utils;
 
 
@@ -70,23 +72,30 @@ public class MemberAdminController {
             @Parameter(name="password", description = "변경할 비밀번호, 필수는 아니므로 변경 값이 넘어오면 변경 처리함", example = "_aA123456"),
             @Parameter(name="confirmPassword", description = "password 값이 있다면 확인은 필수항목"),
             @Parameter(name="mobile", description = "휴대전화번호"),
-            @Parameter(name="authority", description = "변경할 권한 목록, 필수는 아니므로 값이 있을 때만 변경 처리, 다중 권한 지원하므로 여러 권한을 배열 형태로 전송", example = "authority=USER&authority=MANAGER")
+            @Parameter(name="authority", description = "변경할 권한 목록, 필수는 아니므로 값이 있을 때만 변경 처리")
     })
     @PatchMapping("/update")
-    public void update(@RequestBody @Valid RequestUpdate form, Errors errors) {
+    public JSONData update(@RequestBody @Valid RequestUpdate form, Errors errors) {
         updateValidator.validate(form, errors);
+
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
+
+        memberSaveService.save(form);
+
+        Member member = memberUtil.getMember();
+
+        return new JSONData(member);
     }
 
-    @Operation(summary = "회원삭제", method = "Delete")
+    @Operation(summary = "회원 삭제", method = "Delete")
     @ApiResponse(responseCode = "204")
     @Parameters({
             @Parameter(name="seq", description = "경로변수, 회원번호", example = "1"),
     })
     @DeleteMapping("/delete/{seq}")
-    public JSONData deelte(@PathVariable("seq") Long seq) {
+    public JSONData delete(@PathVariable("seq") Long seq) {
         Member member = memberDeleteService.deleteMember(seq);
         return new JSONData(member);
     }

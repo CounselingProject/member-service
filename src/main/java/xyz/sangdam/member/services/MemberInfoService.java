@@ -35,6 +35,17 @@ public class MemberInfoService implements UserDetailsService {
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
 
+    /**
+     * 사용자 정보를 가져와 인증처리하는 메서드
+     * - 로그인 시 호출되는 메서드
+     *
+     * username으로 사용자를 찾고, 그 사용자의 UserType에 따라 추가 정보를 Employee나 Student 리포지토리에서 조회
+     * 사용자의 역할(권한)을 UserType을 기준으로 부여한 후, 이를 기반으로 인증 정보를 담은 MemberInfo 객체를 반환
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
