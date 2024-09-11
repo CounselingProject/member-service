@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import xyz.sangdam.member.constants.Gender;
-import xyz.sangdam.member.constants.Status;
-import xyz.sangdam.member.constants.UserType;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -48,7 +46,7 @@ public class RequestJoin {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
     private String gender = Gender.FEMALE.name(); // 성별
-    private String status;
+    //private String status;
 
 
     @NotBlank
