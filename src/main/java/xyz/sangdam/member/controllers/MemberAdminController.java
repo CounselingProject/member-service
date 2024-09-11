@@ -97,6 +97,7 @@ public class MemberAdminController {
     @DeleteMapping("/delete/{seq}")
     public JSONData delete(@PathVariable("seq") Long seq) {
         Member member = memberDeleteService.deleteMember(seq);
+
         return new JSONData(member);
     }
 }

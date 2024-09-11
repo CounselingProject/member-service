@@ -13,6 +13,7 @@ import xyz.sangdam.member.controllers.RequestUpdate;
 import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.entities.Student;
+import xyz.sangdam.member.exceptions.MemberNotFoundException;
 import xyz.sangdam.member.repositories.EmployeeRepository;
 import xyz.sangdam.member.repositories.MemberRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
@@ -84,6 +85,8 @@ public class MemberSaveService {
      * @param form
      */
     public void save(RequestUpdate form) {
-
+        Member member = memberUtil.getMember();
+        String email = member.getEmail();
+        member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
     }
 }
