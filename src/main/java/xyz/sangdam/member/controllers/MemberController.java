@@ -48,7 +48,7 @@ public class MemberController {
     public JSONData info(@AuthenticationPrincipal MemberInfo memberInfo) {
         Member member = memberInfo.getMember();
 
-        return null;
+        return new JSONData(member);
     }
 
     @Operation(summary = "회원가입")
