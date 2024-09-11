@@ -20,15 +20,15 @@ public class UpdateValidator implements Validator, PasswordValidator, MobileVali
     public void validate(Object target, Errors errors) {
         RequestUpdate form = (RequestUpdate)target;
 
-        //String email = form.getEmail();
+        String email = form.getEmail();
         String password = form.getPassword();
         String confirmPassword = form.getConfirmPassword();
         String mobile = form.getMobile();
 
         // 관리자에서 회원 정보 수정시 이메일 정보 필수
-//        if (!StringUtils.hasText(email)) {
-//            errors.rejectValue("email", "NotBlank");
-//        }
+        if (!StringUtils.hasText(email)) {
+            errors.rejectValue("email", "NotBlank");
+        }
 
         if (StringUtils.hasText(password)) {
             //1. 비밀번호, 비밀번호 확인 일치 여부

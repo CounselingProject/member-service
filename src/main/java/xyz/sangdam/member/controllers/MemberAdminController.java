@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.usertype.UserType;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import xyz.sangdam.global.ListData;
@@ -16,11 +15,10 @@ import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.entities.Member;
+import xyz.sangdam.member.services.MemberDeleteService;
 import xyz.sangdam.member.services.MemberInfoService;
 import xyz.sangdam.member.services.MemberSaveService;
 import xyz.sangdam.member.validators.UpdateValidator;
-
-import java.util.List;
 
 @Tag(name="MemberAdmin", description = "회원 관리 API")
 @RestController
@@ -31,9 +29,11 @@ public class MemberAdminController {
     private final MemberInfoService memberInfoService;
     private final MemberSaveService memberSaveService;
     private final UpdateValidator updateValidator;
+    private final MemberDeleteService memberDeleteService;
     private final Utils utils;
 
-    @Operation(summary = "회원목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
+
+    @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
     @ApiResponse(responseCode = "200")
     @Parameters({
             @Parameter(name="page", description = "페이지 번호", example = "1"),
@@ -78,9 +78,16 @@ public class MemberAdminController {
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
+    }
 
-
-
-
+    @Operation(summary = "회원삭제", method = "Delete")
+    @ApiResponse(responseCode = "204")
+    @Parameters({
+            @Parameter(name="seq", description = "경로변수, 회원번호", example = "1"),
+    })
+    @DeleteMapping("/delete/{seq}")
+    public JSONData deelte(@PathVariable("seq") Long seq) {
+        Member member = memberDeleteService.deleteMember(seq);
+        return new JSONData(member);
     }
 }
