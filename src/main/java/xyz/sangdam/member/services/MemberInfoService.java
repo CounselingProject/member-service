@@ -1,6 +1,7 @@
 package xyz.sangdam.member.services;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -81,21 +82,44 @@ public class MemberInfoService implements UserDetailsService {
         int offset = (page - 1) * limit;
 
         /* 검색 처리 S */
-        BooleanBuilder andBuilder = new BooleanBuilder();
         QMember member = QMember.member;
+        BooleanBuilder andBuilder = new BooleanBuilder();
 
         String sopt = search.getSopt();
         String skey = search.getSkey();
-        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL";
-        if (StringUtils.hasText(skey)) {
-            skey = skey.trim();
-            if (sopt.equals("ALL")) { // 통합 검색
 
-            } else if (sopt.equals("name")) { // 회원명, 지도교수명
+        sopt = StringUtils.hasText(sopt) ? sopt.toUpperCase() : "ALL"; // 통합검색이 기본
+
+
+        if (StringUtils.hasText(skey)) {
+            /**
+             * sopt 검색옵션
+             * ALL - (통합검색) - email, userName
+             * email - 이메일로 검색
+             * userName - 닉네임으로 검색
+             */
+            sopt = sopt.trim();
+            skey = skey.trim();
+            BooleanExpression condition = null;
+
+            if (sopt.equals("ALL")) { // 통합 검색
+                condition = member.email.contains(skey).or(member.userName.contains(skey)).or(member.userType.stringValue().contains(skey));
+
+            } else if (sopt.equals("email")) { // 이메일로 검색
+                condition = member.email.contains(skey);
 
             }
+            else if (sopt.equals("userName")) { // 회원명, 지도교수명
+                condition = member.userName.contains(skey);
 
+            } else if (sopt.equals("userType")) { // 권한으로 검색
+                condition = member.userType.stringValue().contains(skey);
+            }
+
+            if (condition != null) andBuilder.and(condition);
         }
+
+
 
         /* 검색 처리 E */
 

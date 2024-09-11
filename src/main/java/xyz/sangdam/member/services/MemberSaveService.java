@@ -82,11 +82,32 @@ public class MemberSaveService {
 
     /**
      * 회원정보 수정
+     *
      * @param form
      */
     public void save(RequestUpdate form) {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+        // 학생, 상담사, 교수가 자신의 개인정보 수정
+        if (memberUtil.isStudent() || memberUtil.isCounselor() || memberUtil.isProfessor()) {
+            String mobile = form.getMobile();
+            if (StringUtils.hasText(mobile)) {
+                mobile = mobile.replaceAll("\\D", "");
+            }
+            member.setMobile(mobile);
+            member.setZonecode(form.getZonecode());
+            member.setAddress(form.getAddress());
+            member.setAddresssub(form.getAddresssub());
+
+        }
+
+        // 관리자가 모든 회원의 개인정보 수정
+        if (memberUtil.isAdmin()) {
+            // 전체 회원 리스트 조회
+
+
+        }
     }
 }
