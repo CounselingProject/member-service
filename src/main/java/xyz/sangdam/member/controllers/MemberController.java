@@ -36,7 +36,6 @@ public class MemberController {
     private final MemberSaveService saveService;
     private final MemberInfoService infoService;
     private final UpdateValidator updateValidator;
-    private final MemberSaveService memberSaveService;
     private final TokenProvider tokenProvider;
     private final MemberUtil memberUtil;
     private final Utils utils;
@@ -95,17 +94,16 @@ public class MemberController {
         return new JSONData(token);
     }
 
-    @PatchMapping("/update")
-    public JSONData update(@RequestBody @Valid RequestUpdate form, Errors errors) {
+    @PatchMapping
+    public JSONData update(@Valid @RequestBody RequestUpdate form, Errors errors) {
+
         updateValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
-        Member member = memberSaveService.save(form);
-
-
+        Member member = saveService.save(form);
 
         return new JSONData(member);
     }

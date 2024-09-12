@@ -3,9 +3,11 @@ package xyz.sangdam.member.validators;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import xyz.sangdam.global.validators.MobileValidator;
 import xyz.sangdam.global.validators.PasswordValidator;
+import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestUpdate;
 
 @Component
@@ -45,6 +47,16 @@ public class UpdateValidator implements Validator, PasswordValidator, MobileVali
         // 3. 휴대전화번호 형식 체크
         if (StringUtils.hasText(mobile) && !mobileCheck(mobile)) {
             errors.rejectValue("mobile", "Mobile");
+        }
+
+        UserType userType = UserType.valueOf(form.getUserType());
+        // 학생 추가 필수 항목 체크
+        if (userType == UserType.STUDENT) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "stdntNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "grade", "NotBlank");
+        } else {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "empNo", "NotBlank");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "subject", "NotBlank");
         }
     }
 }

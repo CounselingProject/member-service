@@ -3,6 +3,8 @@ package xyz.sangdam.member.controllers;
 import lombok.Data;
 import xyz.sangdam.global.CommonSearch;
 
+import java.util.List;
+
 @Data
 public class MemberSearch extends CommonSearch {
     /**
@@ -14,5 +16,5 @@ public class MemberSearch extends CommonSearch {
      */
     private String email;
     private String userName;
-    private String userType;
+    private List<String> userType;
 }

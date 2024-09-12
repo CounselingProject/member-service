@@ -5,13 +5,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Utils;
-import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.MemberUtil;
@@ -64,6 +61,7 @@ public class MemberAdminController {
         return new JSONData(member);
     }
 
+    /*
     @Operation(summary = "회원정보 수정", method = "PATCH")
     @ApiResponse(responseCode = "200")
     @Parameters({
@@ -88,8 +86,10 @@ public class MemberAdminController {
 
         return new JSONData(member);
     }
+     */
 
-    @Operation(summary = "회원 삭제", method = "Delete")
+
+    @Operation(summary = "회원 탈퇴", method = "Delete")
     @ApiResponse(responseCode = "204")
     @Parameters({
             @Parameter(name="seq", description = "경로변수, 회원번호", example = "1"),

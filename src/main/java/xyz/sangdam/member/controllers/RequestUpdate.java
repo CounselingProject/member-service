@@ -2,7 +2,6 @@ package xyz.sangdam.member.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -31,17 +30,18 @@ public class RequestUpdate {
 
     private String zonecode; // 우편번호
     private String address; // 주소
-    private String addresssub; // 상세 주소
-    @Column(length=10)
+    private String addressSub; // 상세 주소
+
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
     private String gender = Gender.FEMALE.name(); // 성별
     private String status = Status.ONCLASS.name(); // 기본값 수업 중
 
     @NotBlank
-    private String deptNm; // 부서명이자 학과명
-
     private String deptNo; // 부서번호
 
+    @NotBlank
+    private String deptNm; // 부서명이자 학과명
     // 학생 정보
     private String grade; // 학년
     private String stdntNo; // 학번
