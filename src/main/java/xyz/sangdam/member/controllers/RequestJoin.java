@@ -46,7 +46,7 @@ public class RequestJoin {
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
     private String gender = Gender.FEMALE.name(); // 성별
-    //private String status;
+    private String status;
 
 
     @NotBlank
