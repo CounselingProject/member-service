@@ -114,7 +114,7 @@ public class MemberSaveService {
         member.setMobile(mobile);
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
-        member.setAddresssub(form.getAddresssub());
+        member.setAddresssub(form.getAddressSub());
         member.setBirth(form.getBirth());
 
         String password = form.getPassword();
