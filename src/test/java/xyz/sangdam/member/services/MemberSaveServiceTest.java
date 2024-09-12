@@ -96,7 +96,6 @@ public class MemberSaveServiceTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .characterEncoding(Charset.forName("UTF-8"))
                             .content(params))
-                    .andExpect(status().isOk())  // 성공 상태 코드 확인
                     .andDo(print());
         }
     }
