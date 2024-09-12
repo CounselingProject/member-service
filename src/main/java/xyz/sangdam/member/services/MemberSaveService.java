@@ -1,10 +1,13 @@
 package xyz.sangdam.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.constants.Gender;
 import xyz.sangdam.member.constants.Status;
@@ -28,6 +31,7 @@ public class MemberSaveService {
     private final MemberRepository memberRepository;
     private final EmployeeRepository employeeRepository;
     private final StudentRepository studentRepository;
+    private final MemberInfoService infoService;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
@@ -88,29 +92,69 @@ public class MemberSaveService {
      *
      * @param form
      */
-    public void save(RequestUpdate form) {
+    public Member save(RequestUpdate form) {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
 
-        // 학생, 상담사, 교수가 자신의 개인정보 수정
-        if (memberUtil.isStudent() || memberUtil.isCounselor() || memberUtil.isProfessor()) {
-            String mobile = form.getMobile();
-            if (StringUtils.hasText(mobile)) {
-                mobile = mobile.replaceAll("\\D", "");
-            }
-            member.setMobile(mobile);
-            member.setZonecode(form.getZonecode());
-            member.setAddress(form.getAddress());
-            member.setAddresssub(form.getAddresssub());
+        UserType userType = member.getUserType();
 
+        if (userType == UserType.STUDENT) {
+            member = studentRepository.findById(member.getSeq()).orElseThrow(MemberNotFoundException::new);
+        } else {
+            member = employeeRepository.findById(member.getSeq()).orElseThrow(MemberNotFoundException::new);
         }
 
-        // 관리자가 모든 회원의 개인정보 수정
+        /* 공통 수정 항목 S */
+        String mobile = form.getMobile();
+        if (StringUtils.hasText(mobile)) {
+            mobile = mobile.replaceAll("\\D", "");
+        }
+
+        member.setMobile(mobile);
+        member.setZonecode(form.getZonecode());
+        member.setAddress(form.getAddress());
+        member.setAddresssub(form.getAddresssub());
+        member.setBirth(form.getBirth());
+
+        String password = form.getPassword();
+        if (StringUtils.hasText(password)) {
+            String hash = passwordEncoder.encode(password);
+            member.setPassword(hash);
+        }
+        /* 공통 수정 항목 E */
+
+        // 교직원(상담사, 교수), 관리자
+        if (member instanceof Employee && StringUtils.hasText(form.getStatus()) || memberUtil.isAdmin()) {
+            member.setStatus(Status.valueOf(form.getStatus()));
+        }
+
+
+        /* 관리자인 경우만 수정 가능 항목 */
         if (memberUtil.isAdmin()) {
-            // 전체 회원 리스트 조회
+            member.setUserName(form.getUserName());
+            member.setDeptNo(form.getDeptNo());
+            member.setDeptNm(form.getDeptNm());
+            member.setGender(form.getGender() == null ? null : Gender.valueOf(form.getGender()));
 
-
+            if (member instanceof Student student) {
+                student.setGrade(form.getGrade());
+                student.setStdntNo(form.getStdntNo());
+            } else if (member instanceof Employee employee) {
+                employee.setEmpNo(form.getEmpNo());
+                employee.setSubject(form.getSubject());
+            }
         }
+
+        if (member instanceof Employee employee) {
+            employeeRepository.saveAndFlush(employee);
+        } else if (member instanceof Student student) {
+            studentRepository.saveAndFlush(student);
+        }
+
+        MemberInfo memberInfo = (MemberInfo) infoService.loadUserByUsername(email);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        return member;
     }
 }
