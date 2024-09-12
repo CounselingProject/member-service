@@ -1,4 +1,4 @@
-package xyz.choongang;
+package xyz.sangdam;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
