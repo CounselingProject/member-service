@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import xyz.sangdam.file.entities.FileInfo;
 import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Pagination;
@@ -149,9 +148,11 @@ public class MemberInfoService implements UserDetailsService {
     }
 
     public void addInfo(Member member) {
+        /*
         List<FileInfo> files = fileInfoService.getList(member.getGid());
         if (files != null && !files.isEmpty()) {
             member.setProfileImage(files.get(0));
         }
+         */
     }
 }

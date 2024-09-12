@@ -99,7 +99,7 @@ public class MemberController {
     @Parameters({
 
     })
-    @PatchMapping
+    @PatchMapping("/update")
     public JSONData update(@Valid @RequestBody RequestUpdate form, Errors errors) {
 
         updateValidator.validate(form, errors);
