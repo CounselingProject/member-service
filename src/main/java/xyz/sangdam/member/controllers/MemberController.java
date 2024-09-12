@@ -94,6 +94,11 @@ public class MemberController {
         return new JSONData(token);
     }
 
+    @Operation(summary = "회원정보 수정", method = "PATCH")
+    @ApiResponse(responseCode = "200")
+    @Parameters({
+
+    })
     @PatchMapping
     public JSONData update(@Valid @RequestBody RequestUpdate form, Errors errors) {
 

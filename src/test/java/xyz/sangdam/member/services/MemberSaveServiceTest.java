@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import xyz.sangdam.member.constants.Status;
@@ -87,7 +86,6 @@ public class MemberSaveServiceTest {
 
     // 10명의 더미 데이터를 미리 생성
     @BeforeEach
-    @Rollback(false)  // 롤백하지 않고 데이터 유지
     @Transactional
     public void init() throws Exception {
         List<RequestJoin> users = createDummystudents();
