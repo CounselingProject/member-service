@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.constants.Gender;
-import xyz.sangdam.member.constants.Status;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.RequestJoin;
 import xyz.sangdam.member.controllers.RequestUpdate;
@@ -62,7 +61,7 @@ public class MemberSaveService {
         member.setAddress(form.getAddress());
         member.setAddresssub(form.getAddressSub());
         member.setGid(form.getGid());
-        member.setStatus(Status.valueOf(form.getStatus()));
+        //member.setStatus(Status.valueOf(form.getStatus()));
         member.setGender(Gender.valueOf(form.getGender()));
         member.setDeptNm(form.getDeptNm());
         member.setDeptNo(form.getDeptNo());
