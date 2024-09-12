@@ -62,8 +62,8 @@ public class MemberSaveService {
         member.setAddress(form.getAddress());
         member.setAddresssub(form.getAddressSub());
         member.setGid(form.getGid());
-        member.setStatus(Status.valueOf(form.getStatus()));
-        member.setGender(Gender.valueOf(form.getGender()));
+        member.setStatus(form.getStatus() == null ? Status.EMPLOYED : Status.valueOf(form.getStatus()));
+        member.setGender(form.getGender() == null ? Gender.FEMALE : Gender.valueOf(form.getGender()));
         member.setDeptNm(form.getDeptNm());
         member.setDeptNo(form.getDeptNo());
         /* 공통 항목 처리 E */

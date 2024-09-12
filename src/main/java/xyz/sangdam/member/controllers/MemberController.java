@@ -24,6 +24,7 @@ import xyz.sangdam.member.jwt.TokenProvider;
 import xyz.sangdam.member.services.MemberInfoService;
 import xyz.sangdam.member.services.MemberSaveService;
 import xyz.sangdam.member.validators.JoinValidator;
+import xyz.sangdam.member.validators.UpdateValidator;
 
 @Tag(name = "Member", description = "회원 API")
 @RestController
@@ -34,6 +35,8 @@ public class MemberController {
     private final JoinValidator joinValidator;
     private final MemberSaveService saveService;
     private final MemberInfoService infoService;
+    private final UpdateValidator updateValidator;
+    private final MemberSaveService memberSaveService;
     private final TokenProvider tokenProvider;
     private final MemberUtil memberUtil;
     private final Utils utils;
@@ -90,5 +93,20 @@ public class MemberController {
         String token = tokenProvider.createToken(form.getEmail(), form.getPassword());
 
         return new JSONData(token);
+    }
+
+    @PatchMapping("/update")
+    public JSONData update(@RequestBody @Valid RequestUpdate form, Errors errors) {
+        updateValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            throw new BadRequestException(utils.getErrorMessages(errors));
+        }
+
+        memberSaveService.save(form);
+
+        Member member = memberUtil.getMember();
+
+        return new JSONData(member);
     }
 } 
