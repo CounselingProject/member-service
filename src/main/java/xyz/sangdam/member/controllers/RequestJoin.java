@@ -29,7 +29,6 @@ public class RequestJoin {
     @NotBlank
     private String confirmPassword;
 
-
     @NotBlank
     private String userName;
 
@@ -39,15 +38,21 @@ public class RequestJoin {
     @NotBlank
     private String userType; // 회원 유형 - STUDENT, PROFESSOR, COUNSELLOR, ADMIN
 
+    @NotBlank
     private String zonecode; // 우편번호
+
+    @NotBlank
     private String address; // 주소
     private String addressSub; // 상세 주소
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
-    private String gender = Gender.FEMALE.name(); // 성별
-    private String status;
 
+    @NotBlank
+    private String gender = Gender.FEMALE.name(); // 성별
+
+    @NotBlank
+    private String status; // 재직, 휴직, 퇴사
 
     @NotBlank
     private String deptNm; // 부서명이자 학과명
