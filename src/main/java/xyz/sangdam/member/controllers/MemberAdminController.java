@@ -8,15 +8,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import xyz.sangdam.global.ListData;
-import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
-import xyz.sangdam.member.MemberUtil;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.services.MemberDeleteService;
 import xyz.sangdam.member.services.MemberInfoService;
-import xyz.sangdam.member.services.MemberSaveService;
-import xyz.sangdam.member.validators.UpdateValidator;
 
 @Tag(name="MemberAdmin", description = "회원 관리 API")
 @RestController
@@ -25,11 +21,7 @@ import xyz.sangdam.member.validators.UpdateValidator;
 public class MemberAdminController {
 
     private final MemberInfoService memberInfoService;
-    private final MemberSaveService memberSaveService;
-    private final UpdateValidator updateValidator;
     private final MemberDeleteService memberDeleteService;
-    private final MemberUtil memberUtil;
-    private final Utils utils;
 
 
     @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")

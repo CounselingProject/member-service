@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import xyz.sangdam.file.services.FileInfoService;
 import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Pagination;
 import xyz.sangdam.member.MemberInfo;
@@ -33,7 +32,6 @@ public class MemberInfoService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final StudentRepository studentRepository;
     private final EmployeeRepository employeeRepository;
-    private final FileInfoService fileInfoService;
 
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
