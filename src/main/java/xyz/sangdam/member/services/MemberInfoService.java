@@ -99,6 +99,9 @@ public class MemberInfoService implements UserDetailsService {
              * ALL - (통합검색) - email, userName
              * email - 이메일로 검색
              * userName - 닉네임으로 검색
+             * mobile - 핸드폰번호로 검색
+             * deptNm - 부서명 + 학과명으로 검색
+             * deptNo - 부서번호로 검색
              */
             sopt = sopt.trim();
             skey = skey.trim();
@@ -115,9 +118,17 @@ public class MemberInfoService implements UserDetailsService {
                 expression = member.email;
 
             }
-            else if (sopt.equals("userName")) { // 회원명, 지도교수명
+            else if (sopt.equals("userName")) { // 회원명로 검색
                 expression = member.userName;
 
+            } else if (sopt.equals("mobile")) { // 핸드폰번호로 검색
+                expression = member.mobile;
+
+            } else if (sopt.equals("deptNm")) { // 부서명 + 학과명으로 검색
+                expression = member.deptNm;
+
+            } else if (sopt.equals("deptNo")) { // 부서번호로 검색
+                expression = member.deptNo;
             }
 
             if (expression != null) andBuilder.and(expression.contains(skey));
