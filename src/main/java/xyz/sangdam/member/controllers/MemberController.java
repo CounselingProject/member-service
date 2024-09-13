@@ -14,12 +14,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.MemberUtil;
+import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.jwt.TokenProvider;
 import xyz.sangdam.member.services.MemberInfoService;
@@ -115,19 +115,27 @@ public class MemberController {
         return new JSONData(member);
     }
 
-    @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
-    @ApiResponse(responseCode = "200")
-    @Parameters({
-            @Parameter(name="page", description = "페이지 번호", example = "1"),
-            @Parameter(name="limit", description = "한페이지당 레코드 갯수", example = "20"),
-            @Parameter(name="sopt", description = "검색옵션", example = "ALL"),
-            @Parameter(name="skey", description = "검색키워드"),
-    })
-    @GetMapping("/list")
-    public JSONData list(@ModelAttribute MemberSearch search) {
+//    @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
+//    @ApiResponse(responseCode = "200")
+//    @Parameters({
+//            @Parameter(name="page", description = "페이지 번호", example = "1"),
+//            @Parameter(name="limit", description = "한페이지당 레코드 갯수", example = "20"),
+//            @Parameter(name="sopt", description = "검색옵션", example = "ALL"),
+//            @Parameter(name="skey", description = "검색키워드"),
+//    })
+//    @GetMapping("/list")
+//    public JSONData list(@ModelAttribute MemberSearch search) {
+//
+//        ListData<Member> data = memberInfoService.getList(search);
+//
+//        return new JSONData(data);
+//    }
 
-        ListData data = memberInfoService.getList(search);
+    @Operation(summary = "상담원 랜덤 조회")
+    @GetMapping("/counselor")
+    public JSONData randomCounselor() {
+        Employee employee = memberInfoService.getCounselor();
 
-        return new JSONData(data);
+        return new JSONData(employee);
     }
 } 

@@ -45,6 +45,7 @@ public class RequestUpdate {
     // 학생 정보
     private String grade; // 학년
     private String stdntNo; // 학번
+    private Long professor; // 교수 회원 번호
 
     // 교직원 정보
     private String empNo; // 사번

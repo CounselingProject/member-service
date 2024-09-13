@@ -17,12 +17,15 @@ import xyz.sangdam.global.Pagination;
 import xyz.sangdam.member.MemberInfo;
 import xyz.sangdam.member.constants.UserType;
 import xyz.sangdam.member.controllers.MemberSearch;
+import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
+import xyz.sangdam.member.entities.QEmployee;
 import xyz.sangdam.member.entities.QMember;
 import xyz.sangdam.member.repositories.EmployeeRepository;
 import xyz.sangdam.member.repositories.MemberRepository;
 import xyz.sangdam.member.repositories.StudentRepository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -162,5 +165,25 @@ public class MemberInfoService implements UserDetailsService {
             member.setProfileImage(files.get(0));
         }
          */
+    }
+
+    /**
+     * 랜덤하게 상담사 배치하기
+     *
+     * @return
+     */
+    public Employee getCounselor() {
+        BooleanBuilder builder = new BooleanBuilder();
+        QEmployee employee = QEmployee.employee;
+        builder.and(employee.userType.eq(UserType.COUNSELOR));
+
+        List<Employee> employees = (List<Employee>)employeeRepository.findAll(builder);
+
+        if (employees != null && !employees.isEmpty()) {
+            Collections.shuffle(employees);
+            return employees.get(0);
+        }
+
+        return null;
     }
 }
