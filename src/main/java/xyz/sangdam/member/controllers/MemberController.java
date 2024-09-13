@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import xyz.sangdam.global.ListData;
 import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
@@ -39,6 +40,7 @@ public class MemberController {
     private final TokenProvider tokenProvider;
     private final MemberUtil memberUtil;
     private final Utils utils;
+    private final MemberInfoService memberInfoService;
 
     @Operation(summary = "인증(로그인)한 회원 정보 조회")
     @ApiResponse(responseCode = "200", description = "학생, 교수/상담자, 관리자에 따라 개인정보 조회 범위가 다르다<br>조회 가능 범위<br>학생 : 학과, 지도교수, 주소, 휴대폰 번호, 이메일<br>교수/상담사 : 담당 과목, 휴대폰 번호, 이메일")
@@ -111,5 +113,21 @@ public class MemberController {
         Member member = saveService.save(form);
 
         return new JSONData(member);
+    }
+
+    @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
+    @ApiResponse(responseCode = "200")
+    @Parameters({
+            @Parameter(name="page", description = "페이지 번호", example = "1"),
+            @Parameter(name="limit", description = "한페이지당 레코드 갯수", example = "20"),
+            @Parameter(name="sopt", description = "검색옵션", example = "ALL"),
+            @Parameter(name="skey", description = "검색키워드"),
+    })
+    @GetMapping("/list")
+    public JSONData list(@ModelAttribute MemberSearch search) {
+
+        ListData data = memberInfoService.getList(search);
+
+        return new JSONData(data);
     }
 } 

@@ -143,7 +143,6 @@ public class MemberInfoService implements UserDetailsService {
         /* 검색 처리 E */
 
         List<Member> items = queryFactory.selectFrom(member)
-                .fetchJoin()
                 .where(andBuilder)
                 .offset(offset)
                 .limit(limit)

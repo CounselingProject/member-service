@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import xyz.sangdam.global.Utils;
+import xyz.sangdam.global.tests.TestTokenService;
+import xyz.sangdam.member.constants.UserType;
 
 import java.net.URI;
 import java.util.List;
@@ -20,6 +22,10 @@ public class ApiRequest {
     private final RestTemplate restTemplate;
     private final ObjectMapper om;
     private final Utils utils;
+    private final TestTokenService tokenService;
+
+    private boolean test;
+    private UserType userType;
 
     private ResponseEntity<JSONData> response;
     private JSONData jsonData;
@@ -37,7 +43,14 @@ public class ApiRequest {
         method = Objects.requireNonNullElse(method, HttpMethod.GET);
 
         HttpHeaders headers = new HttpHeaders();
-        String token = utils.getToken();
+
+        if (System.getenv("spring.profiles.active").contains("test")) {
+            test = true;
+        }
+
+        tokenService.setApiRequest(this);
+        String token = test ? tokenService.getToken(Objects.requireNonNullElse(userType, UserType.STUDENT)) : utils.getToken();
+        test = false;
         if (StringUtils.hasText(token)) { // 토큰이 있다면 토큰 함께 전달
             headers.setBearerAuth(token);
         }
@@ -47,7 +60,8 @@ public class ApiRequest {
             try {
                 String body = om.writeValueAsString(data);
                 HttpEntity<String> request = new HttpEntity<>(body, headers);
-
+                System.out.println("body : " + body);
+                System.out.println("request : " + request);
                 this.response = restTemplate.exchange(URI.create(requestUrl), method, request, JSONData.class);
 
             } catch (JsonProcessingException e) {
@@ -67,6 +81,7 @@ public class ApiRequest {
 
     /**
      * 응답 코드
+     *
      * @return
      */
     public HttpStatusCode getStatus() {
@@ -85,8 +100,8 @@ public class ApiRequest {
      * JSON으로 응답 데이터 변환
      *
      * @param clazz
-     * @return
      * @param <T>
+     * @return
      */
 
     public <T> T toObj(Class<T> clazz) {
@@ -107,8 +122,8 @@ public class ApiRequest {
      * JSON으로 응답 데이터 변환
      *
      * @param typeReference
-     * @return
      * @param <T>
+     * @return
      */
     public <T> List<T> toList(TypeReference<List<T>> typeReference) {
 
@@ -139,6 +154,6 @@ public class ApiRequest {
      * @return
      */
     public String toString() {
-        return (String)jsonData.getData();
+        return (String) jsonData.getData();
     }
 }

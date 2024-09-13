@@ -13,4 +13,8 @@ public class Student extends Member {
 
     @Column(length=10)
     private String stdntNo; // 학번
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="professor")
+    private Employee professor;
 }
