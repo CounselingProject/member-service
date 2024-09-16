@@ -45,6 +45,7 @@ public class RequestJoin {
     private String address; // 주소
     private String addressSub; // 상세 주소
 
+    @NotBlank
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
 

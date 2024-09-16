@@ -61,7 +61,21 @@ public class MemberController {
             @Parameter(name="confirmPassword", required = true, description = "비밀번호 확인"),
             @Parameter(name="userName", required = true, description = "사용자명"),
             @Parameter(name="mobile", description = "휴대전화번호, 형식 검증 있음"),
-            @Parameter(name="agree", required = true, description = "회원가입약관 동의")
+            @Parameter(name="agree", required = true, description = "회원가입약관 동의"),
+            @Parameter(name="userType", required = true, description = "회원 유형", example = "STUDENT, PROFESSOR, COUNSELLOR, ADMIN"),
+            @Parameter(name="zonecode", required = true, description = "우편번호"),
+            @Parameter(name="address", required = true, description = "주소", example = "서울시 ㅇㅇ구 ㅇㅇ동"),
+            @Parameter(name="addressSub", required = false, description = "상세주소", example = "123동 345호"),
+            @Parameter(name="birth", required = true, description = "생년월일"),
+            @Parameter(name="gender", required = true, description = "성별"),
+            @Parameter(name="status", required = true, description = "재직, 휴직, 퇴사 상태"),
+            @Parameter(name="deptNm", required = true, description = "부서명이자 학과명"),
+            @Parameter(name="deptNo", required = true, description = "부서번호 이자 학과번호"),
+            @Parameter(name="stdntNo", required = false, description = "학번"),
+            @Parameter(name="grade", required = false, description = "학년"),
+            @Parameter(name="professor", required = false, description = "교수 회원 번호"),
+            @Parameter(name="empNo", required = false, description = "사번"),
+            @Parameter(name="subject", required = false, description = "담당 과목")
     })
     @PostMapping
     public ResponseEntity join(@RequestBody @Valid RequestJoin form, Errors errors) {
@@ -79,7 +93,6 @@ public class MemberController {
 
     @Operation(summary = "인증 및 토큰 발급", description = "인증 성공시 JWT 토큰 발급")
     @ApiResponse(responseCode = "201", headers = @Header(name="application/json"), description = "data이 발급 받은 토큰")
-
     @Parameters({
             @Parameter(name="email", required = true, description = "이메일"),
             @Parameter(name="password", required = true, description = "비밀번호")
@@ -97,9 +110,27 @@ public class MemberController {
     }
 
     @Operation(summary = "회원정보 수정", method = "PATCH")
-    @ApiResponse(responseCode = "200")
+    @ApiResponse(responseCode = "200",  description = "로그인 한 회원 정보 수정")
     @Parameters({
-
+            @Parameter(name = "email", required = true, description = "변경할 회원의 email(아이디로 사용되므로 변경 불가)", example = "user01@test.org"),
+            @Parameter(name = "userName", required = true, description = "회원명", example = "사용자01"),
+            @Parameter(name = "password", description = "변경할 비밀번호, 필수는 아니므로 변경 값이 넘어오면 변경 처리함", example = "_aA123456"),
+            @Parameter(name = "confirmPassword", description = "password 값이 있다면 확인은 필수항목"),
+            @Parameter(name = "mobile", description = "휴대전화번호"),
+            @Parameter(name="userType", description = "회원 유형", example = "STUDENT, PROFESSOR, COUNSELLOR, ADMIN"),
+            @Parameter(name="zonecode", description = "우편번호"),
+            @Parameter(name="address", description = "주소", example = "서울시 ㅇㅇ구 ㅇㅇ동"),
+            @Parameter(name="addressSub", description = "상세주소", example = "123동 345호"),
+            @Parameter(name="birth", description = "생년월일"),
+            @Parameter(name="gender", description = "성별"),
+            @Parameter(name="status", description = "재직, 휴직, 퇴사 상태"),
+            @Parameter(name="deptNm", description = "부서명이자 학과명"),
+            @Parameter(name="deptNo", description = "부서번호 이자 학과번호"),
+            @Parameter(name="stdntNo", description = "학번"),
+            @Parameter(name="grade", description = "학년"),
+            @Parameter(name="professor", description = "교수 회원 번호"),
+            @Parameter(name="empNo", description = "사번"),
+            @Parameter(name="subject", description = "담당 과목")
     })
     @PatchMapping("/update")
     public JSONData update(@Valid @RequestBody RequestUpdate form, Errors errors) {
@@ -114,22 +145,6 @@ public class MemberController {
 
         return new JSONData(member);
     }
-
-//    @Operation(summary = "회원 목록 조회", description = "items - 조회된 회원목록, pagination - 페이징 기초 데이터", method = "GET")
-//    @ApiResponse(responseCode = "200")
-//    @Parameters({
-//            @Parameter(name="page", description = "페이지 번호", example = "1"),
-//            @Parameter(name="limit", description = "한페이지당 레코드 갯수", example = "20"),
-//            @Parameter(name="sopt", description = "검색옵션", example = "ALL"),
-//            @Parameter(name="skey", description = "검색키워드"),
-//    })
-//    @GetMapping("/list")
-//    public JSONData list(@ModelAttribute MemberSearch search) {
-//
-//        ListData<Member> data = memberInfoService.getList(search);
-//
-//        return new JSONData(data);
-//    }
 
     @Operation(summary = "상담원 랜덤 조회")
     @GetMapping("/counselor")
