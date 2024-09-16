@@ -2,10 +2,7 @@ package xyz.sangdam.member.controllers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import xyz.sangdam.member.constants.Gender;
 
@@ -45,6 +42,7 @@ public class RequestJoin {
     private String address; // 주소
     private String addressSub; // 상세 주소
 
+    @NotNull
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
 
