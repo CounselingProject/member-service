@@ -75,7 +75,6 @@ public class MemberSaveServiceTest_Counselor {
 
     // 10명의 더미 데이터를 미리 생성
     @BeforeEach
-    @Transactional
     public void init() throws Exception {
         List<RequestJoin> users = createDummystudents();
 

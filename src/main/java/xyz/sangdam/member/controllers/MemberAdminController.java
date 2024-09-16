@@ -63,6 +63,7 @@ public class MemberAdminController {
         return new JSONData(member);
     }
 
+
     @Operation(summary = "회원정보 수정", method = "PATCH")
     @ApiResponse(responseCode = "200",  description = "로그인 한 회원 정보 수정")
     @Parameters({
