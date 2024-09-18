@@ -64,7 +64,7 @@ public class CommonControllerAdvice {
         data.setMessage(message);
         data.setStatus(status);
 
-        e.printStackTrace();
+        e.printStackTrace(); //
 
         return ResponseEntity.status(status).body(data);
     }
