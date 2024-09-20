@@ -158,6 +158,7 @@ public class MemberController {
 
     @Operation(summary = "교수목록 키워드 검색")
     @GetMapping("/professors")
+    @PreAuthorize("permitAll()") // 회원가입 할 때 주로 필요하니까
     public JSONData professors(@RequestParam(name = "skey", required = false) String skey) {
         List<Employee> items = memberInfoService.getProfessors(skey);
 
