@@ -27,6 +27,8 @@ import xyz.sangdam.member.services.MemberSaveService;
 import xyz.sangdam.member.validators.JoinValidator;
 import xyz.sangdam.member.validators.UpdateValidator;
 
+import java.util.List;
+
 @Tag(name = "Member", description = "회원 API")
 @RestController
 @RequestMapping("/account")
@@ -152,5 +154,13 @@ public class MemberController {
         Employee employee = memberInfoService.getCounselor();
 
         return new JSONData(employee);
+    }
+
+    @Operation(summary = "교수목록 키워드 검색")
+    @GetMapping("/professors")
+    public JSONData professors(@RequestParam(name = "skey", required = false) String skey) {
+        List<Employee> items = memberInfoService.getProfessors(skey);
+
+        return new JSONData(items);
     }
 } 
