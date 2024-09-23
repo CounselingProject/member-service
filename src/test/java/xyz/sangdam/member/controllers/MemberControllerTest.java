@@ -66,7 +66,7 @@ public class MemberControllerTest {
             form.setUserType("STUDENT");
             form.setZonecode("123456");
             form.setAddress("어드레스");
-            form.setAddressSub("어드레스서브");
+            form.setAddresssub("어드레스서브");
             form.setStatus("EMPLOYED");
             form.setDeptNm("컴퓨터 공학과");
             form.setDeptNo("01");
