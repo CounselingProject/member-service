@@ -30,7 +30,7 @@ public class RequestUpdate {
 
     private String zonecode; // 우편번호
     private String address; // 주소
-    private String addressSub; // 상세 주소
+    private String addresssub; // 상세 주소
 
     @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birth; // 생년월일
