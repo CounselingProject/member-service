@@ -64,7 +64,7 @@ public class MemberSaveService {
         member.setUserType(userType);
         member.setZonecode(form.getZonecode());
         member.setAddress(form.getAddress());
-        member.setAddresssub(form.getAddressSub());
+        member.setAddresssub(form.getAddresssub());
         member.setGid(form.getGid());
         member.setStatus(form.getStatus() == null ? Status.EMPLOYED : Status.valueOf(form.getStatus()));
         member.setGender(form.getGender() == null ? Gender.FEMALE : Gender.valueOf(form.getGender()));

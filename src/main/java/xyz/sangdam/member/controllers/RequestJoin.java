@@ -40,7 +40,7 @@ public class RequestJoin {
 
     @NotBlank
     private String address; // 주소
-    private String addressSub; // 상세 주소
+    private String addresssub; // 상세 주소
 
     @NotNull
     @JsonFormat(pattern="yyyy-MM-dd")

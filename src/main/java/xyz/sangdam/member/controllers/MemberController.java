@@ -67,7 +67,7 @@ public class MemberController {
             @Parameter(name="userType", required = true, description = "회원 유형", example = "STUDENT, PROFESSOR, COUNSELLOR, ADMIN"),
             @Parameter(name="zonecode", required = true, description = "우편번호"),
             @Parameter(name="address", required = true, description = "주소", example = "서울시 ㅇㅇ구 ㅇㅇ동"),
-            @Parameter(name="addressSub", required = false, description = "상세주소", example = "123동 345호"),
+            @Parameter(name="addresssub", required = false, description = "상세주소", example = "123동 345호"),
             @Parameter(name="birth", required = true, description = "생년월일"),
             @Parameter(name="gender", required = true, description = "성별"),
             @Parameter(name="status", required = true, description = "재직, 휴직, 퇴사 상태"),

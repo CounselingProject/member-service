@@ -35,7 +35,7 @@ public class TestTokenService {
         params.put("userType", userType.STUDENT.name());
         params.put("zonecode", "123456");
         params.put("address", "어드레스");
-        params.put("addressSub", "어드레스 서브");
+        params.put("addresssub", "어드레스 서브");
         params.put("status", Status.EMPLOYED.name());
         params.put("deptNm", "컴퓨터 공학과");
         params.put("deptNo", "01");
