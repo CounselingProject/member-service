@@ -117,6 +117,7 @@ public class MemberAdminController {
         return new JSONData(member);
     }
 
+    @Operation(summary = "상담원 목록 키워드 검색", method = "GET")
     @GetMapping("/counselors")
     public JSONData counselors(String skey) {
         List<Employee> members = memberInfoService.getCounselors(skey);
