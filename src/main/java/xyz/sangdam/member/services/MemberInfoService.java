@@ -198,15 +198,13 @@ public class MemberInfoService implements UserDetailsService {
      * @return
      */
     public List<Employee> getCounselors(String key) {
-        if (!StringUtils.hasText(key)) {
-            return Collections.EMPTY_LIST; // 해당 키워드 검색해서 매칭이 되면 검색해서 지도교수 학과명이 나오는 것으로
-        }
 
         BooleanBuilder builder = new BooleanBuilder();
         QEmployee employee = QEmployee.employee;
         builder.and(employee.userType.eq(UserType.COUNSELOR));
-        builder.and(employee.userName.concat(employee.deptNm).contains(key.trim())); // 학과외에 필요한 거 있으면 여기 추가하면 됨
-
+        if (StringUtils.hasText(key)) {
+            builder.and(employee.userName.concat(employee.deptNm).contains(key.trim())); // 학과외에 필요한 거 있으면 여기 추가하면 됨
+        }
         List<Employee> items = (List<Employee>) employeeRepository.findAll(builder, Sort.by(asc("userName"))); // 정렬순서는 이름순
 
         return items;
