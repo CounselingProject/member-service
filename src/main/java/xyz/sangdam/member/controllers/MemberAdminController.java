@@ -14,11 +14,14 @@ import xyz.sangdam.global.Utils;
 import xyz.sangdam.global.exceptions.BadRequestException;
 import xyz.sangdam.global.rests.JSONData;
 import xyz.sangdam.member.MemberInfo;
+import xyz.sangdam.member.entities.Employee;
 import xyz.sangdam.member.entities.Member;
 import xyz.sangdam.member.services.MemberDeleteService;
 import xyz.sangdam.member.services.MemberInfoService;
 import xyz.sangdam.member.services.MemberSaveService;
 import xyz.sangdam.member.validators.UpdateValidator;
+
+import java.util.List;
 
 @Tag(name="MemberAdmin", description = "회원 관리 API")
 @RestController
@@ -112,5 +115,12 @@ public class MemberAdminController {
         Member member = memberDeleteService.deleteMember(seq);
 
         return new JSONData(member);
+    }
+
+    @GetMapping("/counselors")
+    public JSONData counselors(String skey) {
+        List<Employee> members = memberInfoService.getCounselors(skey);
+
+        return new JSONData(members);
     }
 }
