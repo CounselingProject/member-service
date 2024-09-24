@@ -118,7 +118,7 @@ public class MemberAdminController {
     }
 
     @GetMapping("/counselors")
-    public JSONData counselors(String skey) {
+    public JSONData counselors(@RequestParam("skey") String skey) {
         List<Employee> members = memberInfoService.getCounselors(skey);
 
         return new JSONData(members);
