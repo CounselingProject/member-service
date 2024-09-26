@@ -1,11 +1,13 @@
 package xyz.sangdam.member.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import xyz.sangdam.global.CommonSearch;
 
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MemberSearch extends CommonSearch {
     /**
      * sopt 검색옵션

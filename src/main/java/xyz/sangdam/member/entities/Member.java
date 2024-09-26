@@ -1,5 +1,6 @@
 package xyz.sangdam.member.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import xyz.sangdam.file.entities.FileInfo;
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Entity
 @Table(name="USER_INFO")
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Member extends BaseEntity {
     @Id @GeneratedValue
     private Long seq; // 사용자 번호

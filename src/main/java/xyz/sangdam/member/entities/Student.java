@@ -1,5 +1,6 @@
 package xyz.sangdam.member.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -7,6 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="STDNT_INFO")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Student extends Member {
     @Column(length=10)
     private String grade; // 학년
