@@ -153,6 +153,19 @@ public class MemberSaveService {
             if (member instanceof Student student) {
                 student.setGrade(form.getGrade());
                 student.setStdntNo(form.getStdntNo());
+//                // Long 타입의 professor ID를 Employee 엔티티로 변환하여 설정
+//                Long professorId = form.getProfessor(); // Long 값
+//                Optional<Employee> optionalProfessor = employeeRepository.findById(professorId); // 교수 정보를 조회
+//
+//                // Optional에서 Employee를 가져오고, 값이 존재할 경우만 설정
+//                optionalProfessor.ifPresent(student::setProfessor); // Employee 객체를 Student에 설정
+//
+//                // 또는, 값이 존재하지 않을 경우 처리할 로직 추가
+//                if (optionalProfessor.isEmpty()) {
+//                    // 교수 정보가 없는 경우에 대한 처리 (예: 예외 던지기)
+//                    throw new IllegalArgumentException("Professor not found for ID: " + professorId);
+//                }
+//                studentRepository.saveAndFlush(student);
             } else if (member instanceof Employee employee) {
                 employee.setEmpNo(form.getEmpNo());
                 employee.setSubject(form.getSubject());
